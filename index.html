@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>International Women's Day Celebration</title>
+<style>
+    body {
+        font-family: "Sofia", sans-serif;
+        background: url('https://source.unsplash.com/1920x1080/?ukrainianflowers,flowers') center/cover fixed no-repeat;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    #container {
+        max-width: 600px;
+        text-align: center;
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+        color: #0057b8;
+        margin-top: 0;
+    }
+    p {
+        margin-top: 0;
+    }
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 2px solid #0057b8;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #0057b8;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #002d5a;
+    }
+    .message-container {
+        margin-top: 20px;
+        text-align: left;
+    }
+    .message {
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #fce4ec;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+    .heart-icon {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #c2185b;
+        font-size: 36px;
+        line-height: 0;
+    }
+    #messagesLink {
+        color: #0057b8;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 20px;
+        display: block;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+    <h1>International Women's Day Celebration</h1>
+    <p>Enter your name to get a personalized message:</p>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <br><br>
+    <label for="colorPicker">Choose a color for your message:</label>
+    <input type="color" id="colorPicker" value="#ffffff">
+    <br><br>
+    <button onclick="generateMessage()">Get Message</button>
+    <div id="message"></div>
+
+    <script>
+        function generateMessage() {
+            console.log("Function executed"); // Check if the function is executed
+            let name = document.getElementById("nameInput").value.trim();
+            if (name.toLowerCase() !== "maja") {
+                // If the entered name is not "Maja", display a message and return
+                alert("Please enter 'Maja' as the name to proceed.");
+                return;
+            }
+
+            // Generate and display messages and video
+            let acrostic = generateAcrostic(name);
+            let color = document.getElementById("colorPicker").value;
+            let message = `<div class="message-container">`;
+            message += `<div class="message" style="background-color: ${color}; color: #333;">`;
+            message += `<span class="heart-icon">&hearts;</span>`;
+            message += `<p>Dear ${name},</p>`;
+            message += `<p>Happy International Women's Day!</p>`;
+            message += `<div style="font-size: 24px;">`;
+            message += `<p>${acrostic}</p>`;
+            message += `</div>`;
+            message += `<p>Share a message for all the other women:</p>`;
+            message += `<textarea id="userMessage" rows="4" cols="50" placeholder="Write your message here..."></textarea>`;
+            message += `<button onclick="storeMessage('${name}')">Save Message</button>`;
+            message += `</div></div>`;
+
+            // YouTube video (u-e_jSY3IFI)
+            let videoSource = "https://www.youtube.com/embed/u-e_jSY3IFI"; // YouTube video link
+            let videoEmbed = `<iframe width="560" height="315" src="${videoSource}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+
+            // Display the message and video
+            document.getElementById("message").innerHTML = message + videoEmbed;
+        }
+
+        function generateAcrostic(name) {
+            let acrosticMessages = {
+                "M": [
+                    "Magnificent in every way",
+                    "Masterful at what you do",
+                    "Motivator and mentor to others"
+                ],
+                "A": [
+                    "Always supportive and encouraging",
+                    "Adventurous spirit and courageous heart",
+                    "A beacon of inspiration"
+                ],
+                "J": [
+                    "Joyful and jubilant, spreading positivity",
+                    "Juggler of responsibilities, handling with grace",
+                    "Jovial and beloved by all"
+                ],
+                "a": [
+                    "Always spreading love and kindness",
+                    "Appreciated for your warmth and empathy",
+                    "Artistic and creative soul"
+                ]
+            };
+
+            name = name.toUpperCase();
+
+            let acrostic = "";
+            for (let i = 0; i < name.length; i++) {
+                let initial = name[i];
+                if (initial in acrosticMessages) {
+                    let messageIndex = Math.floor(Math.random() * acrosticMessages[initial].length);
+                    let message = acrosticMessages[initial][messageIndex];
+                    acrostic += initial + ": " + message + "<br>";
+                }
+            }
+
+            return acrostic;
+        }
+
+        function storeMessage(name) {
+            let userMessage = document.getElementById("userMessage").value.trim();
+            if (userMessage === "") {
+                alert("Please enter a message!");
+                return;
+            }
+            localStorage.setItem(name, userMessage);
+            alert("Message saved successfully!");
+            document.getElementById("userMessage").value = "";
+        }
+    </script>
+</div>
+</body>
+</html>
